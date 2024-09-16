@@ -6,6 +6,8 @@
 // Bütün kategorileri listeleyen kodu yazınız.
 
 // kullanıcıdan Kategori verilerini alıp listeye ekleyen 
+// Kural olarak daha önce kullanıcının girmiş olduğu Id değerine ait veri varsa
+// Ekran çıktısı olarak Id alanı benzersiz olmalıdır :{Id}
 // listeyi ekran çıktısı olarak isteyen kodu yazınız.
 
 // Ürünlerin fiyat toplamını gösteren kodu yazınız.
@@ -36,12 +38,15 @@ List<Category> categories = new List<Category>()
 {
     new Category(1,"Elbise","Elbise Açıklaması"),
     new Category(2,"Elektronik","Elektronik Açıklama"),
-    new Category(3,"Spor Aletleri","Spor Aletleri Açıklama")
+    new Category(3,"Dekorasyon","Dekorasyon Açıklama"),
+    new Category(4,"Spor Aletleri","Spor Aletleri Açıklama"),
 
 };
 
-GetAllProducts();
-GetAllCategories();
+//GetAllProducts();
+//GetAllCategories();
+
+AddProductAndGetAll();
 
 
 
@@ -69,4 +74,49 @@ void PrintAyirac(string title)
 {
     Console.WriteLine(title);
     Console.WriteLine("--------------------------------------------");
+}
+
+
+void AddProductAndGetAll()
+{
+    bool isUnique = true;
+
+    PrintAyirac("Ürün ekle ve listele");
+
+    Console.WriteLine("Lütfen Ürün Id sini giriniz: ");
+    int id = Convert.ToInt32(Console.ReadLine());
+
+    foreach(Product product in products)
+    {
+        if(product.Id == id)
+        {
+            isUnique = false;
+            break;
+        }
+    }
+
+    if (!isUnique)
+    {
+        Console.WriteLine($"Id alanı benzersiz olmalıdır : {id}");
+        return;
+    }
+
+    Console.WriteLine("Lütfen Ürün adını giriniz: ");
+    string name = Console.ReadLine();
+
+    Console.WriteLine("Lütfen Ürün Değerini giriniz: ");
+    double price = Convert.ToInt32(Console.ReadLine());
+
+
+    Console.WriteLine("Lütfen Stok adedini giriniz: ");
+    int stock = Convert.ToInt32(Console.ReadLine());
+
+    Product createdProduct = new Product(id,name,price,stock);
+    products.Add(createdProduct);
+
+
+    foreach (Product product in products) 
+    {
+        Console.WriteLine(product);
+    }
 }
