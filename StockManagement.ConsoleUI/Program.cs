@@ -67,8 +67,11 @@ List<Category> categories = new List<Category>()
 //TotalProductPriceSum();
 
 //GetAllPriceRange(10000,50000);
-GetAllProductsByPriceFiltered();
+//GetAllProductsByPriceFiltered();
 
+//GetAllProductNameContains();
+
+DeleteProduct();
 
 void GetAllCategories()
 {
@@ -183,4 +186,63 @@ void GetAllProductsByPriceFiltered()
     GetPriceRangeData(out min, out max);
     GetAllPriceRange(min,max);
 }
+
+void GetAllProductNameContains()
+{
+    PrintAyirac("Ürün ismine göre filtrelenen ürünler");
+    string text = GetProductNameData();
+    foreach (Product product in products)
+    {
+        if (product.Name.Contains(text,StringComparison.InvariantCultureIgnoreCase))
+        {
+            Console.WriteLine(product);
+        }
+    }
+}
+
+string GetProductNameData()
+{
+    Console.WriteLine("Lütfen aramak istediğiniz ürünü yazınız: ");
+    string text = Console.ReadLine();
+    return text;
+}
+
+
+void DeleteProduct()
+{
+    PrintAyirac("Silme İşlemi");
+    Console.WriteLine("Lütfen Ürün Id yi giriniz : ");
+    int id = Convert.ToInt32(Console.ReadLine());
+
+    bool isPresent = false;
+
+    foreach (Product product in products)
+    {
+
+
+        if (product.Id == id)
+        {
+            products.Remove(product);
+            isPresent = true;
+        }
+        else
+        {
+            isPresent = false;
+            break;
+        }
+    }
+
+    if (!isPresent)
+    {
+        Console.WriteLine($"Aradığınız id ye göre bir ürün bulunamadı: {id}");
+        return;
+    }
+
+    foreach (Product item in products)
+    {
+        Console.WriteLine(item);
+    }
+
+}
+
 
