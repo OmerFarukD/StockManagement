@@ -17,9 +17,27 @@
 
 // ürünler listesinde bir isim parametresi alarak ürün isimlerinden uyuşanları listelesin
 
+// Kullanıcı bir Id girdiği zaman o id ye göre kitabı silen ve yeni listeyi ekrana bastıran
+// kodu yazınız.
+
+
+// Kullanıcıdan ilk başta id değeri alıp arama yaptıktan sonra eğer o Id ye ait
+// bir kitap yoksa "İlgili Id ye ait bir kitap bulunamadı."
+//* Güncellenecek olan değerler kullanıcıdan alınacak.
+
+// Kullanıcıdan bir kitap almasını isteyen kodu yazınız 
+// Eğer o kitap Stok da varsa kitap alındı yazısı çıksın 
+// 1 tane varsa o kitap alınsın ve 0 olursa Listeden silinsin.
+
+
+// Prime Örnekler:
+// Pagination Desteği getirelecek:
+
 
 //ProductDetail(ProductName, ProductPrice, ProductStock,strin CategoryName);
 // kullanarak ürün detaylarının listesini ekrana yazınız.
+
+
 
 using StockManagement.ConsoleUI;
 
