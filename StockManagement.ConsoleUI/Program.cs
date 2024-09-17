@@ -25,9 +25,18 @@
 // bir kitap yoksa "İlgili Id ye ait bir kitap bulunamadı."
 //* Güncellenecek olan değerler kullanıcıdan alınacak.
 
-// Kullanıcıdan bir kitap almasını isteyen kodu yazınız 
-// Eğer o kitap Stok da varsa kitap alındı yazısı çıksın 
-// 1 tane varsa o kitap alınsın ve 0 olursa Listeden silinsin.
+
+// Kullanıcıdan id ve Stok değerlerini alınız.
+// Ürün kaç adet isteniyorsa o kadar satılsın eğer stokta varsa
+// Kullanıcı ürün aldıktan sonra stok miktarı 0 a düşüyorsa ürün silinsin
+
+// Kullanıcının almak isteiği ürün 50 ama stok ta 40 tane var 
+// Alabileceğiniz max miktar : 40
+
+// Stokdan düşüş yapılsın
+
+// Hanfi ürünü aldıysa ürünün adı ve kaç adet aldığı ve toplam ücreti gösteriniz.
+
 
 
 // Prime Örnekler:
@@ -71,7 +80,78 @@ List<Category> categories = new List<Category>()
 
 //GetAllProductNameContains();
 
-DeleteProduct();
+//DeleteProduct();
+
+StockUpdate();
+
+
+
+void StockUpdate()
+{
+    GetAllProducts();
+    PrintAyirac("Güncellemek istediğiniz veriyi yazınız:");
+
+    Console.WriteLine("Lütfen id değerini giriniz: ");
+    int id = Convert.ToInt32(Console.ReadLine());
+
+    Console.WriteLine("Lütfen stok değerini giriniz: ");
+    int stock = Convert.ToInt32(Console.ReadLine());
+
+
+    Product product= new Product(0,string.Empty,0,0);
+
+    foreach (Product p in products)
+    {
+        if (p.Id==id)
+        {
+            product = p;
+            break;
+        }
+    }
+
+    if (stock > product.Stock)
+    {
+        Console.WriteLine($"Bu üründen max : {product.Stock} kadar almanız gerekmektedir.");
+        return;
+    }
+
+
+    int newStock = product.Stock-stock;
+    Product updatedProduct = new Product(
+        product.Id,
+        product.Name,
+        product.Price,
+        newStock
+        );
+
+    if(updatedProduct.Stock == 0)
+    {
+        products.Remove(product);
+        Console.WriteLine("Bütün Ürünleri aldınız.");
+        GetAllProducts();
+        return;
+    }
+
+
+
+    string productName = updatedProduct.Name;
+    int adetSayisi = stock;
+
+    double totalPrice = stock * updatedProduct.Price;
+
+    Console.WriteLine($"Ürün Adı : {productName}");
+    Console.WriteLine($"Adet Sayısı : {adetSayisi}");
+    Console.WriteLine($"Toplam ücret : {totalPrice}");
+
+    int productIndex = products.IndexOf(product);
+
+      products.Remove(product);
+      products.Insert(productIndex,updatedProduct);
+    GetAllProducts();
+
+
+}
+
 
 void GetAllCategories()
 {
@@ -218,17 +298,16 @@ void DeleteProduct()
 
     foreach (Product product in products)
     {
-
-
         if (product.Id == id)
         {
             products.Remove(product);
             isPresent = true;
+            break;
         }
         else
         {
             isPresent = false;
-            break;
+          
         }
     }
 
