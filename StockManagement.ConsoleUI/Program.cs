@@ -12,7 +12,7 @@
 
 // Ürünlerin fiyat toplamını gösteren kodu yazınız.
 
-// kullanıcıdan iki değer alalım bu değerler min ve max değerleri olsun
+// kullanıcıdan iki değer alalım bu değerler min ve max değerleri olsun(Price)
 // bu 2 değer arasında stok verilerini getirsin.
 
 // ürünler listesinde bir isim parametresi alarak ürün isimlerinden uyuşanları listelesin
@@ -63,10 +63,11 @@ List<Category> categories = new List<Category>()
 
 //GetAllProducts();
 //GetAllCategories();
+//AddProductAndGetAll();
+//TotalProductPriceSum();
 
-AddProductAndGetAll();
-
-
+//GetAllPriceRange(10000,50000);
+GetAllProductsByPriceFiltered();
 
 
 void GetAllCategories()
@@ -138,3 +139,48 @@ void AddProductAndGetAll()
         Console.WriteLine(product);
     }
 }
+
+
+void TotalProductPriceSum()
+{
+    PrintAyirac("Bütün Ürünlerin Fiyat Toplamını yazdırınız.");
+    double total = 0;
+    foreach (Product product in products)
+    {
+        total = total + product.Price;
+    }
+
+    Console.WriteLine($"Toplam : {total}");
+}
+
+void GetAllPriceRange(double min, double max)
+{
+
+    PrintAyirac($"{min} ile {max} değer aralığındaki ürünler : ");
+    foreach (Product product in products)
+    {
+        if (product.Price>=min && product.Price <=max)
+        {
+            Console.WriteLine(product);
+        }
+    }
+}
+
+
+void GetPriceRangeData(out double min, out double max)
+{
+    Console.WriteLine("Lütfen minimum değeri giriniz: ");
+     min = Convert.ToDouble(Console.ReadLine());
+
+    Console.WriteLine("Lütfen Max değeri giriniz: ");
+    max = Convert.ToDouble(Console.ReadLine());
+}
+
+void GetAllProductsByPriceFiltered()
+{
+    double min;
+    double max;
+    GetPriceRangeData(out min, out max);
+    GetAllPriceRange(min,max);
+}
+
