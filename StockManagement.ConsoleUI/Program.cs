@@ -48,21 +48,11 @@
 
 
 
-using StockManagement.ConsoleUI;
+using StockManagement.ConsoleUI.Models;
 using System.Diagnostics;
 using System.Xml.Linq;
 
-List<Product> products = new List<Product>()
-{
-    new Product(1,"Beymen Takım Elbise",15000,250),
-    new Product(2,"Prada Çanta",60000,10),
-    new Product(3,"Hk Vision Drone",400000,25),
-    new Product(4,"Dyson Süpürge",32000,200),
-    new Product(5,"Karaca Vazo",500,1000),
-    new Product(6,"Kütahya Porselen Ayna",1500,200),
-    new Product(7, "Adidas Futbol Topu",5000,1254),
-    new Product(8,"Delta Yoga Matı",2000,531)
-};
+
 List<Category> categories = new List<Category>()
 {
     new Category(1,"Elbise","Elbise Açıklaması"),
@@ -181,21 +171,6 @@ void PrintAyirac(string title)
     Console.WriteLine("--------------------------------------------");
 }
 
-
-void AddProduct()
-{
-    PrintAyirac("Ürün ekle ve listele");
-    Product createdProduct = GetAddedProductInputV2();
-    bool isValid = AddProductValidator(createdProduct);
-
-    if (isValid)
-    {
-        products.Add(createdProduct);
-        GetAllProducts();
-    }
-
-}
-
 // Ürün adı benzersiz olsun 
 // Stok ve Price Alanları 0 dan büyük olmak zorundadır
 
@@ -208,13 +183,13 @@ bool AddProductValidator(Product product)
         {
          
             GetNotUniqueMessage("Id");
-            break;
+            return false;
         }
 
         if (item.Name == product.Name)
         {
             GetNotUniqueMessage("Name");
-            break;
+            return false;
         }
 
        
@@ -281,32 +256,6 @@ Product GetAddedProductInputV2()
     return product;
 }
 
-
-
-void TotalProductPriceSum()
-{
-    PrintAyirac("Bütün Ürünlerin Fiyat Toplamını yazdırınız.");
-    double total = 0;
-    foreach (Product product in products)
-    {
-        total = total + product.Price;
-    }
-
-    Console.WriteLine($"Toplam : {total}");
-}
-
-void GetAllPriceRange(double min, double max)
-{
-
-    PrintAyirac($"{min} ile {max} değer aralığındaki ürünler : ");
-    foreach (Product product in products)
-    {
-        if (product.Price>=min && product.Price <=max)
-        {
-            Console.WriteLine(product);
-        }
-    }
-}
 
 
 void GetPriceRangeData(out double min, out double max)
