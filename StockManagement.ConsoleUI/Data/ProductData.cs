@@ -1,12 +1,11 @@
-﻿
-
-using StockManagement.ConsoleUI.Models;
+﻿using StockManagement.ConsoleUI.Models;
 
 namespace StockManagement.ConsoleUI.Data;
 
 public class ProductData
 {
-    List<Product> products = new List<Product>()
+
+   private List<Product> products = new List<Product>()
 {
     new Product(1,"Beymen Takım Elbise",15000,250),
     new Product(2,"Prada Çanta",60000,10),
@@ -46,7 +45,47 @@ public class ProductData
     
     public List<Product> GetAllProductNameContains(string text)
     {
+        List<Product> filteredProducts = new List<Product>();
 
+        foreach (Product product in products) 
+        {
+            if (product.Name.Contains(text,StringComparison.InvariantCultureIgnoreCase))
+            {
+                filteredProducts.Add(product); 
+            }
+        }
+        return filteredProducts;
     }
 
+    public Product? GetById(int id)
+    {
+        Product? product = null;
+        foreach (Product item in products)
+        {
+            if (item.Id == id)
+            {
+                product = item;
+                break;
+            }
+        }
+        return product;
+    }
+
+
+    public Product Delete(int id)
+    {
+        Product? product = GetById(id);
+
+        if (product is not null)
+        {
+            products.Remove(product);
+        }
+
+        return product;
+    }
+
+   public List<Product> GetAll()
+    {
+        return products;
+    }
 }

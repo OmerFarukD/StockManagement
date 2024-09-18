@@ -1,4 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using StockManagement.ConsoleUI.Models;
+using StockManagement.ConsoleUI.Service;
+
+// See https://aka.ms/new-console-template for more information
 // Bir ürünler listesi oluşturunuz.
 // Bir Kategoriler listesi oluşturunuz.
 
@@ -48,20 +51,6 @@
 
 
 
-using StockManagement.ConsoleUI.Models;
-using System.Diagnostics;
-using System.Xml.Linq;
-
-
-List<Category> categories = new List<Category>()
-{
-    new Category(1,"Elbise","Elbise Açıklaması"),
-    new Category(2,"Elektronik","Elektronik Açıklama"),
-    new Category(3,"Dekorasyon","Dekorasyon Açıklama"),
-    new Category(4,"Spor Aletleri","Spor Aletleri Açıklama"),
-
-};
-
 //GetAllProducts();
 //GetAllCategories();
 //AddProductAndGetAll();
@@ -76,260 +65,219 @@ List<Category> categories = new List<Category>()
 
 //StockUpdate();
 
-AddProduct();
+//AddProduct();
 
 
-void StockUpdate()
-{
-    GetAllProducts();
-    PrintAyirac("Güncellemek istediğiniz veriyi yazınız:");
-
-    Console.WriteLine("Lütfen id değerini giriniz: ");
-    int id = Convert.ToInt32(Console.ReadLine());
-
-    Console.WriteLine("Lütfen stok değerini giriniz: ");
-    int stock = Convert.ToInt32(Console.ReadLine());
-
-
-    Product product= new Product(0,string.Empty,0,0);
-
-    foreach (Product p in products)
-    {
-        if (p.Id==id)
-        {
-            product = p;
-            break;
-        }
-    }
-
-    if (stock > product.Stock)
-    {
-        Console.WriteLine($"Bu üründen max : {product.Stock} kadar almanız gerekmektedir.");
-        return;
-    }
-
-
-    int newStock = product.Stock-stock;
-    Product updatedProduct = new Product(
-        product.Id,
-        product.Name,
-        product.Price,
-        newStock
-        );
-
-    if(updatedProduct.Stock == 0)
-    {
-        products.Remove(product);
-        Console.WriteLine("Bütün Ürünleri aldınız.");
-        GetAllProducts();
-        return;
-    }
+ProductService productService = new ProductService();
+productService.GetById(100);
 
 
 
-    string productName = updatedProduct.Name;
-    int adetSayisi = stock;
+//void StockUpdate()
+//{
+//    GetAllProducts();
+//    PrintAyirac("Güncellemek istediğiniz veriyi yazınız:");
 
-    double totalPrice = stock * updatedProduct.Price;
+//    Console.WriteLine("Lütfen id değerini giriniz: ");
+//    int id = Convert.ToInt32(Console.ReadLine());
 
-    Console.WriteLine($"Ürün Adı : {productName}");
-    Console.WriteLine($"Adet Sayısı : {adetSayisi}");
-    Console.WriteLine($"Toplam ücret : {totalPrice}");
-
-    int productIndex = products.IndexOf(product);
-
-      products.Remove(product);
-      products.Insert(productIndex,updatedProduct);
-    GetAllProducts();
+//    Console.WriteLine("Lütfen stok değerini giriniz: ");
+//    int stock = Convert.ToInt32(Console.ReadLine());
 
 
-}
+//    Product product= new Product(0,string.Empty,0,0);
+
+//    foreach (Product p in products)
+//    {
+//        if (p.Id==id)
+//        {
+//            product = p;
+//            break;
+//        }
+//    }
+
+//    if (stock > product.Stock)
+//    {
+//        Console.WriteLine($"Bu üründen max : {product.Stock} kadar almanız gerekmektedir.");
+//        return;
+//    }
 
 
-void GetAllCategories()
-{
-    PrintAyirac("Bütün Kategoriler");
-    foreach (Category category in categories)
-    {
-        Console.WriteLine(category);
-    }
-}
+//    int newStock = product.Stock-stock;
+//    Product updatedProduct = new Product(
+//        product.Id,
+//        product.Name,
+//        product.Price,
+//        newStock
+//        );
 
-void GetAllProducts()
-{
-    PrintAyirac("Bütün Ürünler");
-    foreach (Product product in products)
-    {
-        Console.WriteLine(product);
-    }
-}
-
-
-void PrintAyirac(string title)
-{
-    Console.WriteLine(title);
-    Console.WriteLine("--------------------------------------------");
-}
-
-// Ürün adı benzersiz olsun 
-// Stok ve Price Alanları 0 dan büyük olmak zorundadır
-
-bool AddProductValidator(Product product)
-{
-    
-    foreach (Product item in products)
-    {
-        if (item.Id == product.Id)
-        {
-         
-            GetNotUniqueMessage("Id");
-            return false;
-        }
-
-        if (item.Name == product.Name)
-        {
-            GetNotUniqueMessage("Name");
-            return false;
-        }
-
-       
-    }
-
- 
-
-    if (product.Stock <= 0)
-    {
-        Console.WriteLine("Eklemek istediğiniz Ürünün stok değeri negatif olamaz");
-        return false;
-    }
-
-    if (product.Price <= 0)
-    {
-        Console.WriteLine("Eklemek istediğiniz Ürünün Fiyat değeri negatif olamaz");
-        return false;
-    }
-
-
-    return true;
-}
-
-void GetNotUniqueMessage(string property)
-{
-    Console.WriteLine($"Eklemek istediğiniz ürünün alanı Benzersiz olmalıdır. : {property}");
-
-}
-
-void GetProductAddedInput(out int id,out string name, out double price,out int stock)
-{
-    Console.WriteLine("Lütfen Ürün Id sini giriniz: ");
-    id = Convert.ToInt32(Console.ReadLine());
-
-    Console.WriteLine("Lütfen Ürün adını giriniz: ");
-     name = Console.ReadLine();
-
-    Console.WriteLine("Lütfen Ürün Değerini giriniz: ");
-     price = Convert.ToInt32(Console.ReadLine());
-
-
-    Console.WriteLine("Lütfen Stok adedini giriniz: ");
-     stock = Convert.ToInt32(Console.ReadLine());
-
-}
-
-Product GetAddedProductInputV2()
-{
-    Console.WriteLine("Lütfen Ürün Id sini giriniz: ");
-   int id = Convert.ToInt32(Console.ReadLine());
-
-    Console.WriteLine("Lütfen Ürün adını giriniz: ");
-   string name = Console.ReadLine();
-
-    Console.WriteLine("Lütfen Ürün Değerini giriniz: ");
-   int price = Convert.ToInt32(Console.ReadLine());
-
-
-    Console.WriteLine("Lütfen Stok adedini giriniz: ");
-    int stock = Convert.ToInt32(Console.ReadLine());
-
-    Product product = new Product(id, name, price, stock);
-
-    return product;
-}
+//    if(updatedProduct.Stock == 0)
+//    {
+//        products.Remove(product);
+//        Console.WriteLine("Bütün Ürünleri aldınız.");
+//        GetAllProducts();
+//        return;
+//    }
 
 
 
-void GetPriceRangeData(out double min, out double max)
-{
-    Console.WriteLine("Lütfen minimum değeri giriniz: ");
-     min = Convert.ToDouble(Console.ReadLine());
+//    string productName = updatedProduct.Name;
+//    int adetSayisi = stock;
 
-    Console.WriteLine("Lütfen Max değeri giriniz: ");
-    max = Convert.ToDouble(Console.ReadLine());
-}
+//    double totalPrice = stock * updatedProduct.Price;
 
-void GetAllProductsByPriceFiltered()
-{
-    double min;
-    double max;
-    GetPriceRangeData(out min, out max);
-    GetAllPriceRange(min,max);
-}
+//    Console.WriteLine($"Ürün Adı : {productName}");
+//    Console.WriteLine($"Adet Sayısı : {adetSayisi}");
+//    Console.WriteLine($"Toplam ücret : {totalPrice}");
 
-void GetAllProductNameContains()
-{
-    PrintAyirac("Ürün ismine göre filtrelenen ürünler");
-    string text = GetProductNameData();
-    foreach (Product product in products)
-    {
-        if (product.Name.Contains(text,StringComparison.InvariantCultureIgnoreCase))
-        {
-            Console.WriteLine(product);
-        }
-    }
-}
+//    int productIndex = products.IndexOf(product);
 
-string GetProductNameData()
-{
-    Console.WriteLine("Lütfen aramak istediğiniz ürünü yazınız: ");
-    string text = Console.ReadLine();
-    return text;
-}
+//      products.Remove(product);
+//      products.Insert(productIndex,updatedProduct);
+//    GetAllProducts();
 
 
-void DeleteProduct()
-{
-    PrintAyirac("Silme İşlemi");
-    Console.WriteLine("Lütfen Ürün Id yi giriniz : ");
-    int id = Convert.ToInt32(Console.ReadLine());
+//}
 
-    bool isPresent = false;
 
-    foreach (Product product in products)
-    {
-        if (product.Id == id)
-        {
-            products.Remove(product);
-            isPresent = true;
-            break;
-        }
-        else
-        {
-            isPresent = false;
-          
-        }
-    }
+//void GetAllCategories()
+//{
+//    PrintAyirac("Bütün Kategoriler");
+//    foreach (Category category in categories)
+//    {
+//        Console.WriteLine(category);
+//    }
+//}
 
-    if (!isPresent)
-    {
-        Console.WriteLine($"Aradığınız id ye göre bir ürün bulunamadı: {id}");
-        return;
-    }
+//void GetAllProducts()
+//{
+//    PrintAyirac("Bütün Ürünler");
+//    foreach (Product product in products)
+//    {
+//        Console.WriteLine(product);
+//    }
+//}
 
-    foreach (Product item in products)
-    {
-        Console.WriteLine(item);
-    }
 
-}
+//void PrintAyirac(string title)
+//{
+//    Console.WriteLine(title);
+//    Console.WriteLine("--------------------------------------------");
+//}
+
+//// Ürün adı benzersiz olsun 
+//// Stok ve Price Alanları 0 dan büyük olmak zorundadır
+
+//bool AddProductValidator(Product product)
+//{
+
+//    foreach (Product item in products)
+//    {
+//        if (item.Id == product.Id)
+//        {
+
+//            GetNotUniqueMessage("Id");
+//            return false;
+//        }
+
+//        if (item.Name == product.Name)
+//        {
+//            GetNotUniqueMessage("Name");
+//            return false;
+//        }
+
+
+//    }
+
+
+
+//    if (product.Stock <= 0)
+//    {
+//        Console.WriteLine("Eklemek istediğiniz Ürünün stok değeri negatif olamaz");
+//        return false;
+//    }
+
+//    if (product.Price <= 0)
+//    {
+//        Console.WriteLine("Eklemek istediğiniz Ürünün Fiyat değeri negatif olamaz");
+//        return false;
+//    }
+
+
+//    return true;
+//}
+
+//void GetNotUniqueMessage(string property)
+//{
+//    Console.WriteLine($"Eklemek istediğiniz ürünün alanı Benzersiz olmalıdır. : {property}");
+
+//}
+
+//void GetProductAddedInput(out int id,out string name, out double price,out int stock)
+//{
+//    Console.WriteLine("Lütfen Ürün Id sini giriniz: ");
+//    id = Convert.ToInt32(Console.ReadLine());
+
+//    Console.WriteLine("Lütfen Ürün adını giriniz: ");
+//     name = Console.ReadLine();
+
+//    Console.WriteLine("Lütfen Ürün Değerini giriniz: ");
+//     price = Convert.ToInt32(Console.ReadLine());
+
+
+//    Console.WriteLine("Lütfen Stok adedini giriniz: ");
+//     stock = Convert.ToInt32(Console.ReadLine());
+
+//}
+
+//Product GetAddedProductInputV2()
+//{
+//    Console.WriteLine("Lütfen Ürün Id sini giriniz: ");
+//   int id = Convert.ToInt32(Console.ReadLine());
+
+//    Console.WriteLine("Lütfen Ürün adını giriniz: ");
+//   string name = Console.ReadLine();
+
+//    Console.WriteLine("Lütfen Ürün Değerini giriniz: ");
+//   int price = Convert.ToInt32(Console.ReadLine());
+
+
+//    Console.WriteLine("Lütfen Stok adedini giriniz: ");
+//    int stock = Convert.ToInt32(Console.ReadLine());
+
+//    Product product = new Product(id, name, price, stock);
+
+//    return product;
+//}
+
+
+
+//void GetPriceRangeData(out double min, out double max)
+//{
+//    Console.WriteLine("Lütfen minimum değeri giriniz: ");
+//     min = Convert.ToDouble(Console.ReadLine());
+
+//    Console.WriteLine("Lütfen Max değeri giriniz: ");
+//    max = Convert.ToDouble(Console.ReadLine());
+//}
+
+//void GetAllProductsByPriceFiltered()
+//{
+//    double min;
+//    double max;
+//    GetPriceRangeData(out min, out max);
+//    GetAllPriceRange(min,max);
+//}
+
+
+
+//string GetProductNameData()
+//{
+//    Console.WriteLine("Lütfen aramak istediğiniz ürünü yazınız: ");
+//    string text = Console.ReadLine();
+//    return text;
+//}
+
+
 
 
