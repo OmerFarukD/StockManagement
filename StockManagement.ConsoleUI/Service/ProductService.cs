@@ -1,5 +1,6 @@
 ﻿using StockManagement.ConsoleUI.Data;
 using StockManagement.ConsoleUI.Models;
+using StockManagement.ConsoleUI.Models.Dtos;
 
 namespace StockManagement.ConsoleUI.Service;
 
@@ -87,5 +88,23 @@ public class ProductService
     {
         List<Product> filtered = productData.GetAllProductsOrderByAscendingName();
         filtered.ForEach(x => Console.WriteLine(x));
+    }
+
+    public void GetExpensiveProduct()
+    {
+        Product product = productData.GetExpensiveProduct();
+        Console.WriteLine($"En pahalı ürün : {product}");
+    }
+
+    public void GetCheapProduct()
+    {
+        Product product = productData.GetCheapProduct();
+        Console.WriteLine($"En pahalı ürün : {product}");
+    }
+
+    public void GetDetails()
+    {
+        List<ProductDetailDto> details = productData.GetDetails();
+        details.ForEach(x => Console.WriteLine(x));
     }
 }

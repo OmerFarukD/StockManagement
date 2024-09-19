@@ -69,7 +69,7 @@ using StockManagement.ConsoleUI.Service;
 
 
 ProductService productService = new ProductService();
-productService.GetAllProductsOrderByDescendingName();
+productService.GetDetails();
 
 
 
@@ -140,14 +140,7 @@ productService.GetAllProductsOrderByDescendingName();
 //}
 
 
-//void GetAllCategories()
-//{
-//    PrintAyirac("Bütün Kategoriler");
-//    foreach (Category category in categories)
-//    {
-//        Console.WriteLine(category);
-//    }
-//}
+
 
 //void GetAllProducts()
 //{
