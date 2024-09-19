@@ -31,43 +31,65 @@ public class ProductData
 
    public List<Product> GetAllPriceRange(double min, double max)
     {
-        List<Product> filteredProducts = new List<Product>();
+        // 1. Yöntem
+        //List<Product> filteredProducts = new List<Product>();
 
-        foreach (Product product in products)
-        {
-            if (product.Price >= min && product.Price <= max)
-            {
-               filteredProducts.Add(product);
-            }
-        }
+        //foreach (Product product in products)
+        //{
+        //    if (product.Price >= min && product.Price <= max)
+        //    {
+        //       filteredProducts.Add(product);
+        //    }
+        //}
+        //return filteredProducts;
+
+       
+        var filteredProducts = products.Where(x => x.Price <= max && x.Price >= min).ToList();
         return filteredProducts;
+
+        // Where(lambda[Dönüş tipi : bool]) : Verilerin filtrelenmesi için kullanılır.
     }
     
     public List<Product> GetAllProductNameContains(string text)
     {
-        List<Product> filteredProducts = new List<Product>();
+        // 1. Yöntem
+        //List<Product> filteredProducts = new List<Product>();
 
-        foreach (Product product in products) 
-        {
-            if (product.Name.Contains(text,StringComparison.InvariantCultureIgnoreCase))
-            {
-                filteredProducts.Add(product); 
-            }
-        }
+        //foreach (Product product in products) 
+        //{
+        //    if (product.Name.Contains(text,StringComparison.InvariantCultureIgnoreCase))
+        //    {
+        //        filteredProducts.Add(product); 
+        //    }
+        //}
+        //return filteredProducts;
+
+
+        // FindAll(lambda[Dönüş tipi : bool]) : Where.ToList den farkı işin sonunda sadece Liste döndürür.
+        var filteredProducts = products.FindAll(x=> x.Name.Contains(text));
         return filteredProducts;
     }
 
     public Product? GetById(int id)
     {
-        Product? product = null;
-        foreach (Product item in products)
-        {
-            if (item.Id == id)
-            {
-                product = item;
-                break;
-            }
-        }
+        //1. Yöntem
+        //Product? product = null;
+        //foreach (Product item in products)
+        //{
+        //    if (item.Id == id)
+        //    {
+        //        product = item;
+        //        break;
+        //    }
+        //}
+        //return product;
+
+        // L1 
+         Product? product = products.SingleOrDefault(x=>x.Id==id);
+
+         // Product? product = products.Where(x => x.Id == id).SingleOrDefault();
+
+        //Product? product = products.FirstOrDefault(x=> x.Id ==id);
         return product;
     }
 
@@ -80,8 +102,15 @@ public class ProductData
         {
             products.Remove(product);
         }
+        else
+        {
+            return null;
+        }
 
         return product;
+
+
+
     }
 
    public List<Product> GetAll()

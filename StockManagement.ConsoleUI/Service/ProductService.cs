@@ -31,4 +31,43 @@ public class ProductService
         Console.WriteLine(product);
     }
 
+    public void TotalProductPriceSum()
+    {
+        double total = productData.TotalProductPriceSum();
+        Console.WriteLine($"Ürünlerin Fiyat toplamı : {total}");
+    }
+
+    public void GetAllPriceRange(double min, double max)
+    {
+        List<Product> filteredData = productData.GetAllPriceRange(min,max);
+
+        foreach (Product product in filteredData)
+        {
+            Console.WriteLine(product);
+        }
+    }
+
+    public void GetAllProductNameContains(string text)
+    {
+        List<Product> filteredProduct = productData.GetAllProductNameContains(text);
+
+        foreach (Product product in filteredProduct)
+        {
+            Console.WriteLine(product);
+        }
+    }
+
+    public void Delete(int id)
+    {
+        Product? product = productData.Delete(id);
+
+        if (product is null) 
+        {
+            Console.WriteLine($"Ürün Bulunamadı : Id= {id}");
+            return;
+        }
+        Console.WriteLine("Ürün Silindi.");
+        Console.WriteLine(product);
+    }
+
 }
