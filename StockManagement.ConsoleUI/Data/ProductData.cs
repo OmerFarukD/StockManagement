@@ -117,4 +117,32 @@ public class ProductData
     {
         return products;
     }
+
+    public List<Product> GetAllProductsByStockRange(int min, int max)
+    {
+        List<Product> filtered = products.FindAll(x=> x.Stock<=max && x.Stock>=min);
+        return filtered;
+    }
+
+
+    public List<Product> GetAllProductsOrderByAscendingName()
+    {
+        List<Product> orderBy = products.OrderBy(x=> x.Name).ToList();
+        return orderBy;
+    }
+
+    public List<Product> GetAllProductsOrderByDescendingName()
+    {
+        List<Product> orderBy = products.OrderByDescending(x => x.Name).ToList();
+        return orderBy;
+    }
+
+    public Product GetExpensiveProduct()
+    {
+
+    }
+
+    public Product GetCheapProduct()
+    {
+    }
 }

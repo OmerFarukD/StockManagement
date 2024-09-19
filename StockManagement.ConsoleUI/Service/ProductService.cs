@@ -70,4 +70,22 @@ public class ProductService
         Console.WriteLine(product);
     }
 
+    public void GetAllProductsByStockRange(int min, int max)
+    {
+        List<Product> products = productData.GetAllProductsByStockRange(min, max);
+        products.ForEach(x=> Console.WriteLine(x));
+    }
+
+
+    public void GetAllProductsOrderByDescendingName()
+    {
+        List<Product> filtered = productData.GetAllProductsOrderByDescendingName();
+        filtered.ForEach(x=> Console.WriteLine(x));
+    }
+
+    public void GetAllProductsOrderByAscendingName()
+    {
+        List<Product> filtered = productData.GetAllProductsOrderByAscendingName();
+        filtered.ForEach(x => Console.WriteLine(x));
+    }
 }

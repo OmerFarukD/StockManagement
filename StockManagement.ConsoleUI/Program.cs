@@ -69,7 +69,7 @@ using StockManagement.ConsoleUI.Service;
 
 
 ProductService productService = new ProductService();
-productService.GetAll();
+productService.GetAllProductsOrderByDescendingName();
 
 
 
