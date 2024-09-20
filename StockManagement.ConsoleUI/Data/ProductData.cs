@@ -18,14 +18,14 @@ public class ProductData
     new Product(8,4,"Delta Yoga Matı",2000,531)
 };
 
-    List<Category> categories = new List<Category>()
-     {
-         new Category(1,"Elbise","Elbise Açıklaması"),
-         new Category(2,"Elektronik","Elektronik Açıklama"),
-         new Category(3,"Dekorasyon","Dekorasyon Açıklama"),
-         new Category(4,"Spor Aletleri","Spor Aletleri Açıklama"),
+    //List<Category> categories = new List<Category>()
+    // {
+    //     new Category(1,"Elbise","Elbise Açıklaması"),
+    //     new Category(2,"Elektronik","Elektronik Açıklama"),
+    //     new Category(3,"Dekorasyon","Dekorasyon Açıklama"),
+    //     new Category(4,"Spor Aletleri","Spor Aletleri Açıklama"),
 
-     };
+    // };
 
     public Product Add(Product product)
     {
@@ -159,7 +159,7 @@ public class ProductData
         return product;
     }
 
-    public List<ProductDetailDto> GetDetails()
+    public List<ProductDetailDto> GetDetails(List<Category> categories)
     {
         var result = from p in products
                      join c in categories
@@ -176,4 +176,43 @@ public class ProductData
 
         return result.ToList();
     }
+
+    public List<ProductDetailDto> GetDetailsV2(List<Category> categories)
+    {
+        List<ProductDetailDto> details =
+            products.Join(categories,
+            p => p.categoryId,
+            c => c.Id,
+            (pr, ca) => new ProductDetailDto(
+                         Id: pr.Id,
+                         categoryName: ca.Name,
+                         Name: pr.Name,
+                         Price: pr.Price,
+                         Stock: pr.Stock
+                         )
+            ).ToList();
+        return details;
+    }
+
+    public ProductDetailDto? GetDetailById(int id,List<Category> categories)
+    {
+
+        var result = from p in products
+                     where p.Id == id
+                     join c in categories
+                     on p.categoryId equals c.Id
+
+                     select new ProductDetailDto(
+                         Id: p.Id,
+                         categoryName: c.Name,
+                         Name: p.Name,
+                         Price: p.Price,
+                         Stock: p.Stock
+                         );
+
+        return result.FirstOrDefault();
+
+
+    }
+
 }

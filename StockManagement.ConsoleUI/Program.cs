@@ -1,5 +1,4 @@
-﻿using StockManagement.ConsoleUI.Models;
-using StockManagement.ConsoleUI.Service;
+﻿using StockManagement.ConsoleUI.Service;
 
 // See https://aka.ms/new-console-template for more information
 // Bir ürünler listesi oluşturunuz.
@@ -69,7 +68,7 @@ using StockManagement.ConsoleUI.Service;
 
 
 ProductService productService = new ProductService();
-productService.GetDetails();
+productService.GetDetailById(2);
 
 
 

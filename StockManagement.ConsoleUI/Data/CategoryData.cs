@@ -16,4 +16,9 @@ public class CategoryData
 
      };
 
+    public List<Category> GetAll()
+    {
+         return categories;
+    }
+
 }

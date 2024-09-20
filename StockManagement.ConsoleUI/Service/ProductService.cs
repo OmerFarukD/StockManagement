@@ -8,6 +8,7 @@ public class ProductService
 {
     ProductData productData = new ProductData();
 
+    CategoryService categoryService = new CategoryService();
 
     public void GetAll()
     {
@@ -104,7 +105,29 @@ public class ProductService
 
     public void GetDetails()
     {
-        List<ProductDetailDto> details = productData.GetDetails();
+        List<Category> categories = categoryService.GetAllCategories();
+        List<ProductDetailDto> details = productData.GetDetails(categories);
         details.ForEach(x => Console.WriteLine(x));
+    }
+
+    public void GetDetailsV2()
+    {
+        List<Category> categories = categoryService.GetAllCategories();
+        List<ProductDetailDto> details = productData.GetDetailsV2(categories);
+        details.ForEach(x => Console.WriteLine(x));
+    }
+
+    public void GetDetailById(int id)
+    {
+        List<Category> categories = categoryService.GetAllCategories();
+
+        ProductDetailDto? detail = productData.GetDetailById(id,categories);
+        if(detail is null)
+        {
+            Console.WriteLine($"Ürün Bulunamadı : Id= {id}");
+            return;
+        }
+
+        Console.WriteLine(detail);
     }
 }
