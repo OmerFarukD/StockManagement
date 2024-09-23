@@ -163,7 +163,7 @@ public class ProductData
     {
         var result = from p in products
                      join c in categories
-                     on p.categoryId equals c.Id
+                     on p.CategoryId equals c.Id
 
 
                      select new ProductDetailDto(
@@ -181,7 +181,7 @@ public class ProductData
     {
         List<ProductDetailDto> details =
             products.Join(categories,
-            p => p.categoryId,
+            p => p.CategoryId,
             c => c.Id,
             (pr, ca) => new ProductDetailDto(
                          Id: pr.Id,
@@ -200,7 +200,7 @@ public class ProductData
         var result = from p in products
                      where p.Id == id
                      join c in categories
-                     on p.categoryId equals c.Id
+                     on p.CategoryId equals c.Id
 
                      select new ProductDetailDto(
                          Id: p.Id,
