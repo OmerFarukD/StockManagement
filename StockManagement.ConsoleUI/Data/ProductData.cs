@@ -1,22 +1,21 @@
 ﻿using StockManagement.ConsoleUI.Models;
 using StockManagement.ConsoleUI.Models.Dtos;
+using StockManagement.ConsoleUI.Service;
 
 namespace StockManagement.ConsoleUI.Data;
 
-public class ProductData
+public sealed class ProductData: BaseRepository
 {
+   List<Product> products()
+    {
+        return Products();
+    }
 
-   private List<Product> products = new List<Product>()
-{
-    new Product(1,1,"Beymen Takım Elbise",15000,250),
-    new Product(2,1,"Prada Çanta",60000,10),
-    new Product(3,2,"Hk Vision Drone",400000,25),
-    new Product(4,2,"Dyson Süpürge",32000,200),
-    new Product(5,3,"Karaca Vazo",500,1000),
-    new Product(6,3,"Kütahya Porselen Ayna",1500,200),
-    new Product(7,4, "Adidas Futbol Topu",5000,1254),
-    new Product(8,4,"Delta Yoga Matı",2000,531)
-};
+    List<Category> categories()
+    {
+        return Categories();
+    }
+
 
     //List<Category> categories = new List<Category>()
     // {
@@ -29,13 +28,13 @@ public class ProductData
 
     public Product Add(Product product)
     {
-        products.Add(product);
+        products().Add(product);
         return product;
     }
 
    public double TotalProductPriceSum()
     {
-        double total = products.Sum(x => x.Price);
+        double total = products().Sum(x => x.Price);
         return total;
     }
 
@@ -54,7 +53,7 @@ public class ProductData
         //return filteredProducts;
 
        
-        var filteredProducts = products.Where(x => x.Price <= max && x.Price >= min).ToList();
+        var filteredProducts = products().Where(x => x.Price <= max && x.Price >= min).ToList();
         return filteredProducts;
 
         // Where(lambda[Dönüş tipi : bool]) : Verilerin filtrelenmesi için kullanılır.
@@ -76,7 +75,7 @@ public class ProductData
 
 
         // FindAll(lambda[Dönüş tipi : bool]) : Where.ToList den farkı işin sonunda sadece Liste döndürür.
-        var filteredProducts = products.FindAll(x=> x.Name.Contains(text));
+        var filteredProducts = products().FindAll(x=> x.Name.Contains(text));
         return filteredProducts;
     }
 
@@ -95,7 +94,7 @@ public class ProductData
         //return product;
 
         // L1 
-         Product? product = products.SingleOrDefault(x=>x.Id==id);
+         Product? product = products().SingleOrDefault(x=>x.Id==id);
 
          // Product? product = products.Where(x => x.Id == id).SingleOrDefault();
 
@@ -110,7 +109,7 @@ public class ProductData
 
         if (product is not null)
         {
-            products.Remove(product);
+            products().Remove(product);
         }
         else
         {
@@ -125,43 +124,43 @@ public class ProductData
 
    public List<Product> GetAll()
     {
-        return products;
+        return products();
     }
 
     public List<Product> GetAllProductsByStockRange(int min, int max)
     {
-        List<Product> filtered = products.FindAll(x=> x.Stock<=max && x.Stock>=min);
+        List<Product> filtered = products().FindAll(x=> x.Stock<=max && x.Stock>=min);
         return filtered;
     }
 
 
     public List<Product> GetAllProductsOrderByAscendingName()
     {
-        List<Product> orderBy = products.OrderBy(x=> x.Name).ToList();
+        List<Product> orderBy = products().OrderBy(x=> x.Name).ToList();
         return orderBy;
     }
 
     public List<Product> GetAllProductsOrderByDescendingName()
     {
-        List<Product> orderBy = products.OrderByDescending(x => x.Name).ToList();
+        List<Product> orderBy = products().OrderByDescending(x => x.Name).ToList();
         return orderBy;
     }
 
     public Product GetExpensiveProduct()
     {
-        Product product = products.OrderBy(x => x.Price).LastOrDefault();
+        Product product = products().OrderBy(x => x.Price).LastOrDefault();
         return product;
     }
 
     public Product GetCheapProduct()
     {
-        Product product = products.OrderBy(x => x.Price).FirstOrDefault();
+        Product product = products().OrderBy(x => x.Price).FirstOrDefault();
         return product;
     }
 
     public List<ProductDetailDto> GetDetails(List<Category> categories)
     {
-        var result = from p in products
+        var result = from p in products()
                      join c in categories
                      on p.CategoryId equals c.Id
 
@@ -180,7 +179,7 @@ public class ProductData
     public List<ProductDetailDto> GetDetailsV2(List<Category> categories)
     {
         List<ProductDetailDto> details =
-            products.Join(categories,
+            products().Join(categories,
             p => p.CategoryId,
             c => c.Id,
             (pr, ca) => new ProductDetailDto(
@@ -197,7 +196,7 @@ public class ProductData
     public ProductDetailDto? GetDetailById(int id,List<Category> categories)
     {
 
-        var result = from p in products
+        var result = from p in products()
                      where p.Id == id
                      join c in categories
                      on p.CategoryId equals c.Id
