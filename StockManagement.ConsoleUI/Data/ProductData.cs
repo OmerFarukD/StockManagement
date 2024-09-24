@@ -4,7 +4,7 @@ using StockManagement.ConsoleUI.Service;
 
 namespace StockManagement.ConsoleUI.Data;
 
-public sealed class ProductData: BaseRepository
+public sealed class ProductData:  BaseRepository ,IProductData
 {
    List<Product> products()
     {
@@ -214,4 +214,9 @@ public sealed class ProductData: BaseRepository
 
     }
 
+    public List<string> GetAllProductNames()
+    {
+        List<string> productName = products().Select(x=> x.Name).ToList();
+        return productName;
+    }
 }
