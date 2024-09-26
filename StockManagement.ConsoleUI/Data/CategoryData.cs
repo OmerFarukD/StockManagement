@@ -18,7 +18,7 @@ public sealed class CategoryData : BaseRepository, ICategoryRepository
 
     public List<Category> GetAll()
     {
-         return Categories();
+        return base.Categories();
     }
 
     public Category? GetById(int id)

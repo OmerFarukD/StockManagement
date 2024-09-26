@@ -2,13 +2,8 @@
 
 namespace StockManagement.ConsoleUI.Data;
 
-public interface ICategoryRepository 
+public interface ICategoryRepository : IRepository<Category,int>
 {
-    List<Category> GetAll();
-    Category? GetById(int id);
-
-    Category Add(Category category);
-    Category Update(Category category);
-    Category Delete(int id);
+  
 
 }

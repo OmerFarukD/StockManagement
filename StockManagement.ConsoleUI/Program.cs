@@ -68,7 +68,7 @@
 
 
 ProductService productService = new ProductService();
-productService.GetDetailById(2);
+productService.GetDetailById(new Guid("{3BED90AE-FA0A-4ECE-959B-3A5D804E4471}"));
 
 
 

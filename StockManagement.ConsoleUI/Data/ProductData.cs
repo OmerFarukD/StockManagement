@@ -79,7 +79,7 @@ public sealed class ProductData:  BaseRepository ,IProductData
         return filteredProducts;
     }
 
-    public Product? GetById(int id)
+    public Product? GetById(Guid id)
     {
         //1. Yöntem
         //Product? product = null;
@@ -103,7 +103,7 @@ public sealed class ProductData:  BaseRepository ,IProductData
     }
 
 
-    public Product Delete(int id)
+    public Product Delete(Guid id)
     {
         Product? product = GetById(id);
 
@@ -193,7 +193,7 @@ public sealed class ProductData:  BaseRepository ,IProductData
         return details;
     }
 
-    public ProductDetailDto? GetDetailById(int id,List<Category> categories)
+    public ProductDetailDto? GetDetailById(Guid id,List<Category> categories)
     {
 
         var result = from p in products()
@@ -218,5 +218,10 @@ public sealed class ProductData:  BaseRepository ,IProductData
     {
         List<string> productName = products().Select(x=> x.Name).ToList();
         return productName;
+    }
+
+    public Product Update(Product category)
+    {
+        throw new NotImplementedException();
     }
 }
